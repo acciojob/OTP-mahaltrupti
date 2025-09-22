@@ -1,111 +1,32 @@
 //your JS code here. If required.
-  const form = document.getElementById("otp-form")
-            const inputBoxLength = 6;
+ const codes = document.querySelectorAll('.code');
 
-           ( function  (){
+codes.forEach((code, index) => {
+    // Event listener for typing a number
+    code.addEventListener('input', (e) => {
+        // If a value is entered and it's not the last input field
+        if (e.target.value && index < codes.length - 1) {
+            // Focus on the next input field
+            codes[index + 1].focus();
+        }
+    });
 
-                for(let i =0;i<inputBoxLength; i++){
-    
-                    const input = document.createElement("input")
-                    // input.value = i
-                    input.classList.add("otp-input")
-                    input.maxLength = "1"
-                    input.type = "text"
-    
-    
-                    form.appendChild(input)
-    
+    // Event listener for backspace
+    code.addEventListener('keydown', (e) => {
+        // Check if the pressed key is 'Backspace'
+        if (e.key === 'Backspace') {
+            // Check if it's the first input field
+            if (index > 0) {
+                // Check if the current input is empty
+                if (codes[index].value === '') {
+                    // If empty, move focus to the previous input field
+                    codes[index - 1].focus();
+                } else {
+                    // If not empty, delete the value and move focus back
+                    codes[index].value = '';
+                    codes[index - 1].focus();
                 }
-                
-            })()
-
-
-            // All inputs 
-
-            const allInputs = document.querySelectorAll(".otp-input")
-            allInputs[0].focus()
-            for(let i =0;i<allInputs.length;i++){
-
-                // Handle entering otp
-                allInputs[i].addEventListener("input",(e)=>{
-
-                    if(!isOtpInputValid(e.target.value)){
-                        e.target.value = ""
-                        return
-                    }
-
-
-                    if(allInputs[i+1]){
-                        allInputs[i+1].focus()
-                    }
-                })
-           
-           
-                // Handle backspace
-                allInputs[i].addEventListener("keydown",(e)=>{
-
-                    if(e.key=="Backspace"){
-                        e.preventDefault()
-
-                        if(allInputs[i].value){
-                            allInputs[i].value= ""
-                        }else{
-                            if(allInputs[i-1]){
-                                allInputs[i-1].focus()
-                            }
-                        }
-
-
-                        console.log("user clicked backspace")
-                    }
-                })
-           
-                // Handle paste
-                allInputs[i].addEventListener("paste",(e)=>{
-                    const pastedValue = e.clipboardData.getData("text")
-
-                    // If otp invalid give alert
-                    if(!isOtpValid(pastedValue)){
-                        alert("Invalid OTP")
-                    }else{
-                        for(let i = 0;i<pastedValue.length;i++){
-                            allInputs[i].value = pastedValue[i]
-                        }
-
-                        allInputs[pastedValue.length-1].focus()
-                    }
-
-                })
-            
             }
-
-
-            // Check if otp input is valid
-            function isOtpInputValid(string){
-                const stringCharCode = string.charCodeAt()
-
-                if(stringCharCode >= "0".charCodeAt() && stringCharCode <= "9".charCodeAt()){
-                    return true
-                }
-
-                return false
-
-            }
-
-
-            // [i1,i2,i3,i4,i5,i6]
-            function isOtpValid(string){
-
-                // if(string.length==6) {
-                //     return true
-                // }
-
-
-                for(let i =0;i<string.length;i++){
-                    if(!Number(string[i])){
-                        return false
-                    }
-                }
-
-                return true
-            }
+        }
+    });
+});

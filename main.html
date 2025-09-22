@@ -8,12 +8,19 @@
 
 <body>
 	<!-- the entire body must be written by student -->
-	  <div class="container">
-            <form id="otp-form">
-                <!-- <button type="submit">Submit</button> -->
-            </form>
+	 <div class="container">
+        <h2 id="verification_heading">Verify Your Account</h2>
+        <p id="verification_subtext">We have sent a verification code to your email. Please check your inbox and enter the code below.</p>
+        <div class="code-container" id="code-container">
+            <input type="number" class="code" id="code-1" placeholder="0" min="0" max="9" maxlength="1">
+            <input type="number" class="code" id="code-2" placeholder="0" min="0" max="9" maxlength="1">
+            <input type="number" class="code" id="code-3" placeholder="0" min="0" max="9" maxlength="1">
+            <input type="number" class="code" id="code-4" placeholder="0" min="0" max="9" maxlength="1">
+            <input type="number" class="code" id="code-5" placeholder="0" min="0" max="9" maxlength="1">
+            <input type="number" class="code" id="code-6" placeholder="0" min="0" max="9" maxlength="1">
         </div>
-
+        <button id="verify-btn">Verify</button>
+    </div>
     <script type="text/javascript" src="./script.js">
 </script>
 
