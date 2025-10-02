@@ -1,32 +1,51 @@
 //your JS code here. If required.
- const codes = document.querySelectorAll('.code');
+//your JS code here. If required.
+const inputSize=6;
+const form=document.getElementById("form")
+for(let i=0;i<inputSize;i++){
+	const input=document.createElement("input");
+	input.classList.add("code");
+	input.id=code-${i+1};
+	input.maxLength="1";
+	input.placeholder="0";
+	form.appendChild(input);	
+}
+const allInputs=document.querySelectorAll(".code");
+allInputs[0].focus();
+for(let i=0;i<allInputs.length;i++){
+	//for handling otp next
+	allInputs[i].addEventListener("input",(e)=>{
+		if(!isInputValid(e.target.value)){
+			e.target.value="";
+			alert("Not valid Input");
+			return;
+		}
+		if(allInputs[i+1]){
+			allInputs[i+1].focus();
+		}
+	});
 
-codes.forEach((code, index) => {
-    // Event listener for typing a number
-    code.addEventListener('input', (e) => {
-        // If a value is entered and it's not the last input field
-        if (e.target.value && index < codes.length - 1) {
-            // Focus on the next input field
-            codes[index + 1].focus();
-        }
-    });
+	//for handling otp backspace
+	allInputs[i].addEventListener("keydown",(e)=>{
+		if(e.key=="Backspace"){
+			e.preventDefault();
+			if(allInputs[i].value==""){
+				if(allInputs[i-1]){
+					allInputs[i-1].focus();
+				}
+			}
+			else{
+				allInputs[i].value="";
+			}
+		}
+	})
+}
 
-    // Event listener for backspace
-    code.addEventListener('keydown', (e) => {
-        // Check if the pressed key is 'Backspace'
-        if (e.key === 'Backspace') {
-            // Check if it's the first input field
-            if (index > 0) {
-                // Check if the current input is empty
-                if (codes[index].value === '') {
-                    // If empty, move focus to the previous input field
-                    codes[index - 1].focus();
-                } else {
-                    // If not empty, delete the value and move focus back
-                    codes[index].value = '';
-                    codes[index - 1].focus();
-                }
-            }
-        }
-    });
-});
+function isInputValid(str){
+	if(str.charCodeAt()>="0".charCodeAt() && str.charCodeAt()<="9".charCodeAt()){
+		return true;
+	}
+	return false;
+
+		
+}
